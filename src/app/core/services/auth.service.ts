@@ -19,7 +19,8 @@ export class AuthService {
     return this.httpClient.post<any>(this.LOGIN_URL, {user, password}).pipe(
         tap(response => {
             if(response.token){
-                console.log(response.token)
+                console.log(response.token);
+                this.setToken(response.token);
             }
         })
     )

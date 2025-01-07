@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import path from 'path';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,10 @@ export const routes: Routes = [
     {
         path: 'login',
         loadComponent: () => import('./business/authentication/login/login.component')
+    },
+    {
+        path: 'register',
+        loadComponent: () => import('./business/authentication/register/register.component')
     },
     {
         path: '**',
