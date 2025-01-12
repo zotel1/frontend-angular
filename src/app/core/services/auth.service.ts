@@ -42,13 +42,20 @@ export class AuthService {
     localStorage.setItem(this.tokenKey, token);
   }
 
-  private getToken(): string | null {
-    if(typeof window !== 'undefined'){
-        return localStorage.getItem(this.tokenKey);
-    }else {
+    public getToken(): string | null {
+        const token = localStorage.getItem(this.tokenKey);
+        if (token) {
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const isExpired = Date.now() >= payload.exp * 1000;
+                return isExpired ? null : token;
+            } catch (e) {
+                console.error('Error al decodificar el token:', e);
+                return null;
+            }
+        }
         return null;
     }
-  }
   
   isAuthenticated(): boolean {
     const token = this.getToken();

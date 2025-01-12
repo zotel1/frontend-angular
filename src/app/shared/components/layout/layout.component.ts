@@ -6,6 +6,7 @@ import { RouterOutlet } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
 import { Country, Plant } from '../../models/model';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -47,4 +48,6 @@ export default class LayoutComponent implements OnInit {
             error: (err) => console.error('Error al cargar países:', err),
         });
     }
+
+
 }
