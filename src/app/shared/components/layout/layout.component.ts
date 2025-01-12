@@ -4,17 +4,19 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
+import { Country, Plant } from '../../models/model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, FooterComponent, RouterOutlet],
+  imports: [CommonModule ,HeaderComponent, SidebarComponent, FooterComponent, RouterOutlet],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export default class LayoutComponent implements OnInit {
-    plants: any[] = [];
-    countries: any[] = [];
+    plants: Plant[] = [];
+    countries: Country[] = [];
 
     constructor(private apiService: ApiService) { }
 
