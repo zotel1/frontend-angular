@@ -7,12 +7,13 @@ import { ApiService } from '../../../core/services/api.service';
 import { Country, Plant } from '../../models/model';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
-  selector: 'app-layout',
-  standalone: true,
-  imports: [CommonModule ,HeaderComponent, SidebarComponent, FooterComponent, RouterOutlet],
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+    selector: 'app-layout',
+    standalone: true,
+    imports: [CommonModule, HeaderComponent, SidebarComponent, FooterComponent, RouterOutlet],
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.css']
 })
 export default class LayoutComponent implements OnInit {
     plants: Plant[] = [];
@@ -32,7 +33,7 @@ export default class LayoutComponent implements OnInit {
                 console.log('Plantas:', data);
                 this.plants = data;
             },
-            error: (err) => console.error('Error al cargar plantas', err)
+            error: (err) => console.error('Error al cargar plantas:', err),
         });
     }
 
@@ -43,7 +44,7 @@ export default class LayoutComponent implements OnInit {
                 console.log('Países:', data);
                 this.countries = data;
             },
-            error: (err) => console.error('Error al cargar países', err)
+            error: (err) => console.error('Error al cargar países:', err),
         });
     }
 }
