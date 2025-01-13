@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -19,6 +19,11 @@ export class ApiService {
     // Crear los headers con el token
     private getHeaders(): HttpHeaders {
         const token = this.getToken();
+        if (!token) {
+            console.error('Token no encontrado');
+            throw new Error('El usuario no está autenticado');
+        }
+
         return new HttpHeaders({
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -31,15 +36,23 @@ export class ApiService {
         return this.httpClient.post(`${this.apiUrl}/plants`, plant, { headers });
     }
 
-    // Obtener todos los países
     getCountries(): Observable<any> {
         const headers = this.getHeaders();
-        return this.httpClient.get(`${this.apiUrl}/countries`, { headers });
+        return this.httpClient.get(`${this.apiUrl}/countries`, { headers }).pipe(
+            catchError(error => {
+                console.error('Error en getCountries:', error);
+                return throwError(() => new Error('No se pudieron obtener los países.'));
+            })
+        );
     }
 
-    // Obtener todas las plantas
     getPlants(): Observable<any> {
         const headers = this.getHeaders();
-        return this.httpClient.get(`${this.apiUrl}/plants`, { headers });
+        return this.httpClient.get(`${this.apiUrl}/plants`, { headers }).pipe(
+            catchError(error => {
+                console.error('Error en getPlants:', error);
+                return throwError(() => new Error('No se pudieron obtener las plantas.'));
+            })
+        );
     }
 }
