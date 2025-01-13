@@ -43,10 +43,14 @@ export class AuthService {
      * Guarda el token de acceso y el token de actualización en el almacenamiento local.
      */
     private setTokens(accessToken: string, refreshToken: string): void {
-        localStorage.setItem(this.TOKEN_KEY, accessToken);
-        localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
+        if (accessToken && refreshToken) {
+            localStorage.setItem(this.TOKEN_KEY, accessToken);
+            localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
+            console.log('Tokens almacenados correctamente');
+        } else {
+            console.error('Los tokens no son válidos');
+        }
     }
-
     /**
      * Obtiene el token de acceso almacenado.
      */
@@ -91,12 +95,17 @@ export class AuthService {
             try {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const isExpired = Date.now() >= payload.exp * 1000;
-                return isExpired ? null : token;
+                if (isExpired) {
+                    console.error('El token ha expirado');
+                    return null;
+                }
+                return token;
             } catch (e) {
                 console.error('Error al decodificar el token:', e);
                 return null;
             }
         }
+        console.error('Token no encontrado en localStorage');
         return null;
     }
 

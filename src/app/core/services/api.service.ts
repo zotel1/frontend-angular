@@ -17,11 +17,24 @@ export class ApiService {
     }
 
     // Método para configurar los encabezados
-    private getHeaders(): HttpHeaders {
+    //private getHeaders(): HttpHeaders {
         //const token = this.authService.getToken();
-        const token = localStorage.getItem('token');
+     //   const token = localStorage.getItem('token');
+       // if (!token) {
+         //   console.error('Token no encontrado');
+           // throw new Error('El usuario no está autenticado');
+        //}
+
+        //return new HttpHeaders({
+          //  'Authorization': `Bearer ${token}`,
+            //'Content-Type': 'application/json',
+      //  });
+    //}
+
+    private getHeaders(): HttpHeaders {
+        const token = this.authService.getAccessToken();
         if (!token) {
-            console.error('Token no encontrado');
+            console.error('Token no encontrado o expirado');
             throw new Error('El usuario no está autenticado');
         }
 
