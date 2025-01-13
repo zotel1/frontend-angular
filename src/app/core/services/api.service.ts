@@ -16,9 +16,9 @@ export class ApiService {
         return this.authService.getToken(); // Utiliza el método del AuthService para mayor consistencia
     }
 
-    // Crear los headers con el token
+    // Método para configurar los encabezados
     private getHeaders(): HttpHeaders {
-        const token = this.getToken();
+        const token = this.authService.getToken();
         if (!token) {
             console.error('Token no encontrado');
             throw new Error('El usuario no está autenticado');

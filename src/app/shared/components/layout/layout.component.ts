@@ -48,6 +48,4 @@ export default class LayoutComponent implements OnInit {
             error: (err) => console.error('Error al cargar países:', err),
         });
     }
-
-
 }
