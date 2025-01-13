@@ -11,12 +11,6 @@ export class ApiService {
 
     constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
-    // Obtener el token almacenado
-    private getToken(): string | null {
-        return this.authService.getToken(); // Utiliza el método del AuthService para mayor consistencia
-    }
-
-    // Método para configurar los encabezados
     private getHeaders(): HttpHeaders {
         const token = this.authService.getToken();
         if (!token) {
@@ -25,21 +19,15 @@ export class ApiService {
         }
 
         return new HttpHeaders({
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
-    }
-
-    // Crear una nueva planta
-    createPlant(plant: any): Observable<any> {
-        const headers = this.getHeaders();
-        return this.httpClient.post(`${this.apiUrl}/plants`, plant, { headers });
     }
 
     getCountries(): Observable<any> {
         const headers = this.getHeaders();
         return this.httpClient.get(`${this.apiUrl}/countries`, { headers }).pipe(
-            catchError(error => {
+            catchError((error) => {
                 console.error('Error en getCountries:', error);
                 return throwError(() => new Error('No se pudieron obtener los países.'));
             })
@@ -49,9 +37,19 @@ export class ApiService {
     getPlants(): Observable<any> {
         const headers = this.getHeaders();
         return this.httpClient.get(`${this.apiUrl}/plants`, { headers }).pipe(
-            catchError(error => {
+            catchError((error) => {
                 console.error('Error en getPlants:', error);
                 return throwError(() => new Error('No se pudieron obtener las plantas.'));
+            })
+        );
+    }
+
+    createPlant(plant: any): Observable<any> {
+        const headers = this.getHeaders();
+        return this.httpClient.post(`${this.apiUrl}/plants`, plant, { headers }).pipe(
+            catchError((error) => {
+                console.error('Error en createPlant:', error);
+                return throwError(() => new Error('No se pudo crear la planta.'));
             })
         );
     }
