@@ -11,6 +11,12 @@ export class ApiService {
 
     constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
+    // Obtener el token almacenado
+    private getToken(): string | null {
+        return this.authService.getToken(); // Utiliza el método del AuthService para mayor consistencia
+    }
+
+    // Método para configurar los encabezados
     private getHeaders(): HttpHeaders {
         const token = this.authService.getToken();
         if (!token) {
@@ -19,37 +25,62 @@ export class ApiService {
         }
 
         return new HttpHeaders({
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
     }
 
+    // Obtener lista de países
     getCountries(): Observable<any> {
         const headers = this.getHeaders();
-        return this.httpClient.get(`${this.apiUrl}/countries`, { headers }).pipe(
-            catchError((error) => {
+        return this.httpClient.get(`${this.apiUrl}/countries/list`, { headers }).pipe(
+            catchError(error => {
                 console.error('Error en getCountries:', error);
                 return throwError(() => new Error('No se pudieron obtener los países.'));
             })
         );
     }
 
+    // Obtener lista de plantas
     getPlants(): Observable<any> {
         const headers = this.getHeaders();
-        return this.httpClient.get(`${this.apiUrl}/plants`, { headers }).pipe(
-            catchError((error) => {
+        return this.httpClient.get(`${this.apiUrl}/plants/list`, { headers }).pipe(
+            catchError(error => {
                 console.error('Error en getPlants:', error);
                 return throwError(() => new Error('No se pudieron obtener las plantas.'));
             })
         );
     }
 
+    // Crear una nueva planta
     createPlant(plant: any): Observable<any> {
         const headers = this.getHeaders();
-        return this.httpClient.post(`${this.apiUrl}/plants`, plant, { headers }).pipe(
-            catchError((error) => {
+        return this.httpClient.post(`${this.apiUrl}/plants/create`, plant, { headers }).pipe(
+            catchError(error => {
                 console.error('Error en createPlant:', error);
                 return throwError(() => new Error('No se pudo crear la planta.'));
+            })
+        );
+    }
+
+    // Actualizar una planta
+    updatePlant(id: number, plant: any): Observable<any> {
+        const headers = this.getHeaders();
+        return this.httpClient.put(`${this.apiUrl}/plants/update/${id}`, plant, { headers }).pipe(
+            catchError(error => {
+                console.error('Error en updatePlant:', error);
+                return throwError(() => new Error('No se pudo actualizar la planta.'));
+            })
+        );
+    }
+
+    // Eliminar una planta
+    deletePlant(id: number): Observable<any> {
+        const headers = this.getHeaders();
+        return this.httpClient.delete(`${this.apiUrl}/plants/delete/${id}`, { headers }).pipe(
+            catchError(error => {
+                console.error('Error en deletePlant:', error);
+                return throwError(() => new Error('No se pudo eliminar la planta.'));
             })
         );
     }
