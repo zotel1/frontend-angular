@@ -18,7 +18,8 @@ export class ApiService {
 
     // Método para configurar los encabezados
     private getHeaders(): HttpHeaders {
-        const token = this.authService.getToken();
+        //const token = this.authService.getToken();
+        const token = localStorage.getItem('token');
         if (!token) {
             console.error('Token no encontrado');
             throw new Error('El usuario no está autenticado');
