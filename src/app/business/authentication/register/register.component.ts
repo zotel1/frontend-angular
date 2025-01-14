@@ -3,13 +3,12 @@ import { FormBuilder, FormGroup,  ReactiveFormsModule, Validators } from '@angul
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { CommonModule } from '@angular/common';
-
 @Component({
     selector: 'app-register',
     standalone: true,
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.css'],
-    imports: [ReactiveFormsModule, CommonModule]
+    imports: [ReactiveFormsModule, CommonModule],
 })
 export class RegisterComponent {
     registerForm: FormGroup;
@@ -19,20 +18,25 @@ export class RegisterComponent {
         private authService: AuthService,
         private router: Router
     ) {
+        
         this.registerForm = this.fb.group({
             username: ['', Validators.required],
             password: ['', Validators.required],
-            role: ['USER', Validators.required],
+            role: ['USER' , Validators.required],
         });
     }
 
+    
     onSubmit(): void {
         if (this.registerForm.valid) {
-            const { username, password, role } = this.registerForm.value;
-            this.authService.register(username).subscribe({
+            
+            const payload = this.registerForm.value;
+
+            
+            this.authService.register(payload).subscribe({
                 next: () => {
                     alert('Usuario registrado exitosamente.');
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/login']); 
                 },
                 error: (err) => {
                     console.error('Error al registrar:', err);

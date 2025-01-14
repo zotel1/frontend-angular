@@ -24,12 +24,8 @@ export class AuthService {
     }
 
     // Método para registrar un usuario
-    register(data: { username: string; password: string; role: string }): Observable<any> {
-        return this.httpClient.post(`${this.apiUrl}/register`, data, {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-            }),
-        });
+    register(payload: { username: string; password: string; role: string }): Observable<any> {
+        return this.httpClient.post(`${this.apiUrl}/register`, payload);
     }
 
     // Guardar el token en localStorage
