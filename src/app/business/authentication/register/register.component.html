@@ -1,1 +1,31 @@
-<p>register works!</p>
+<div class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white p-8 shadow-md rounded-md w-96">
+        <h2 class="text-2xl font-bold text-center text-green-500 mb-6">Registro</h2>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Usuario</label>
+                <input type="text" formControlName="username"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-300"
+                    placeholder="Ingresa un usuario" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input type="password" formControlName="password"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-300"
+                    placeholder="Ingresa una contraseña" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Rol</label>
+                <select formControlName="role"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-300">
+                    <option value="USER">Usuario</option>
+                    <option value="ADMIN">Administrador</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
+                [disabled]="registerForm.invalid">
+                Registrarse
+            </button>
+        </form>
+    </div>
+</div>

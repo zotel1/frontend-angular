@@ -1,45 +1,50 @@
-import { Component } from '@angular/core';
-import { Country, Plant } from '../../shared/models/model';
-import { ApiService } from '../../core/services/api.service';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../core/services/api/api.service';
+import { AuthService } from '../../core/services/auth/auth.service';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { PlantsComponent } from '../../shared/components/plants/plants.component';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [],
-  standalone: true,
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    imports: [CommonModule, PlantsComponent, SidebarComponent]
 })
-export default class DashboardComponent {
-    plants: Plant[] = [];
-    countries: Country[] = [];
+export class DashboardComponent implements OnInit {
+    userName: string | null = null;
+    summary: any; // Datos del resumen
+    plants: any[] = []; // Lista de plantas
 
-    constructor(private apiService: ApiService) { }
+    constructor(private apiService: ApiService, private authService: AuthService) { }
 
     ngOnInit(): void {
-        this.loadPlants();
-        this.loadCountries();
+        this.fetchSummary();
+        this.fetchPlants();
+        this.userName = this.authService.getUsernameFromToken();
     }
 
-    // Cargar plantas
-    loadPlants(): void {
-        this.apiService.getPlants().subscribe({
-            next: (data) => {
-                console.log('Plantas:', data);
+    // Obtener datos del resumen
+    fetchSummary(): void {
+        this.apiService.getSummary().subscribe(
+            (data) => {
+                this.summary = data;
+            },
+            (error) => {
+                console.error('Error al obtener el resumen:', error);
+            }
+        );
+    }
+
+    // Obtener lista de plantas
+    fetchPlants(): void {
+        this.apiService.getPlants().subscribe(
+            (data) => {
                 this.plants = data;
             },
-            error: (err) => console.error('Error al cargar plantas:', err),
-        });
+            (error) => {
+                console.error('Error al obtener plantas:', error);
+            }
+        );
     }
-
-    // Cargar países
-    loadCountries(): void {
-        this.apiService.getCountries().subscribe({
-            next: (data) => {
-                console.log('Países:', data);
-                this.countries = data;
-            },
-            error: (err) => console.error('Error al cargar países:', err),
-        });
-    }
-
 }

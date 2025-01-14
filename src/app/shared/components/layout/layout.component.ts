@@ -3,8 +3,8 @@ import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterOutlet } from '@angular/router';
-import { ApiService } from '../../../core/services/api.service';
-import { Country, Plant } from '../../models/model';
+import { ApiService } from '../../../core/services/api/api.service';
+import { Country, Plant } from '../../../core/models/model';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 

@@ -1,30 +1,34 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'
+import { Router } from '@angular/router'
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    standalone: true,
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    imports: [FormsModule],
 })
-export default class LoginComponent {
+export class LoginComponent {
+    user = '';
+    password = '';
 
-    user: string = '';
-    password: string = '';
+    constructor(private authService: AuthService, private router: Router) { }
 
-    constructor(private authService: AuthService, private router: Router){
-
+    onLogin(): void {
+        const credentials = { user: this.user, password: this.password };
+        this.authService.login(credentials).subscribe({
+            next: (response: any) => {
+                // Guardar el token en localStorage
+                this.authService.saveToken(response.token);
+                // Redirigir al dashboard
+                this.router.navigate(['/dashboard']);
+            },
+            error: (err) => {
+                console.error('Error de inicio de sesión:', err);
+            },
+        });
     }
-
-    login(): void {
-        this.authService.login(this.user, this.password).subscribe({
-            next: ()=> this.router.navigate(['/dashboard']),
-            error: (err) => console.error('Login faied', err),
-        })
-    }
-
 }
+

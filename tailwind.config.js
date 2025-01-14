@@ -13,7 +13,12 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+          colors: {
+              creamBlue: '#E0F7FA',
+            creamBlueDark: '#E1F5FE',
+          },
+    },
   },
   plugins: [],
 }

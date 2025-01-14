@@ -2,12 +2,11 @@ import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
 import { appConfig } from './app.config';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './shared/models/TokenInterceptor';
+
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering(),
-        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    
   ]
 };
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../../core/services/api.service';
-import { Country, Plant } from '../../shared/models/model';
+import { ApiService } from '../../core/services/api/api.service';
+import { Country, Plant } from '../../core/models/model';
 
 @Component({
   selector: 'app-profile',
