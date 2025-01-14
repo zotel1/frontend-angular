@@ -17,9 +17,6 @@ export class ApiService {
     // Obtener los headers con el token JWT
     private getHeaders(): HttpHeaders {
         const token = this.authService.getToken();
-        if (!token) {
-            throw new Error('El usuario no está autenticado.');
-        }
         return new HttpHeaders({
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -28,12 +25,7 @@ export class ApiService {
 
     // Obtener lista de países
     getCountries(): Observable<Country[]> {
-        return this.httpClient.get<Country[]>(`${this.apiUrl}/countries`, { headers: this.getHeaders() }).pipe(
-            catchError((error) => {
-                console.error('Error al obtener los países:', error);
-                return throwError(() => new Error('No se pudieron obtener los países.'));
-            })
-        );
+        return this.httpClient.get<Country[]>(`${this.apiUrl}/countries`, { headers: this.getHeaders() });
     }
 
     // Obtener lista de plantas
