@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css'],
-    imports: [CommonModule]
+    imports: [CommonModule, RouterModule]
 })
 export class SidebarComponent { 
     menus = [
@@ -22,9 +24,15 @@ export class SidebarComponent {
         },
         // Agrega más íconos aquí
     ];
+    constructor(private authService: AuthService, private router: Router) { }
+
 
     selectMenu(menu: any): void {
         this.menus.forEach((m) => (m.isSelected = false));
         menu.isSelected = true;
+    }
+    logout(): void {
+        this.authService.logout(); // Este método debería eliminar el token o limpiar el estado de sesión
+        this.router.navigate(['/login']); // Redirige al usuario a la página de login
     }
 }

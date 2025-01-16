@@ -6,13 +6,14 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { PlantsComponent } from '../../shared/components/plants/plants.component';
 import { PlantDetailComponent } from '../plants/plant-detail/plant-detail.component';
 import { Plant } from '../../core/models/model';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
     standalone: true,
-    imports: [CommonModule, PlantsComponent, SidebarComponent, PlantDetailComponent]
+    imports: [CommonModule, PlantsComponent, SidebarComponent, PlantDetailComponent, RouterOutlet]
 })
 export class DashboardComponent implements OnInit {
     userName: string | null = null; // Nombre de usuario obtenido del token
