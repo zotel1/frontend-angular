@@ -66,4 +66,12 @@ export class ApiService {
         );
     }
 
+    deletePlant(plantId: number): Observable<any> {
+        return this.httpClient.delete(`${this.apiUrl}/plants/${plantId}`);
+    }
+    updatePlant(plant: Plant): Observable<any> {
+        return this.httpClient.put(`${this.apiUrl}/plants/${plant.id}`, plant);
+    }
+
+
 }

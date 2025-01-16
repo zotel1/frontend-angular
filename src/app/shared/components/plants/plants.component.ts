@@ -25,16 +25,21 @@ export class PlantsComponent implements OnInit {
         this.fetchCountries();
     }
 
+
+    // Abre el modal
     openModal(): void {
         this.isModalOpen = true;
         this.isFormSubmitted = false;
+        this.resetForm(); // Limpia el formulario al abrir el modal
     }
 
+    // Cierra el modal
     closeModal(): void {
         this.isModalOpen = false;
         this.resetForm();
     }
 
+    // Obtiene las plantas desde la API
     fetchPlants(): void {
         this.apiService.getPlants().subscribe({
             next: (response) => {
@@ -47,18 +52,13 @@ export class PlantsComponent implements OnInit {
         });
     }
 
+    // Obtiene los países desde la API
     fetchCountries(): void {
         this.apiService.getCountries().subscribe({
             next: (response) => {
-                // Mapear la respuesta a objetos compatibles con el modelo 'Country'
                 this.countries = response.map((country: any) => ({
                     name: country.name.common,
                     flagUrl: country.flags.png,
-                    flags: {
-                        png: country.flags.png,
-                        svg: country.flags.svg,
-                        alt: country.flags.alt || '',
-                    },
                 }));
             },
             error: (err) => {
@@ -67,6 +67,29 @@ export class PlantsComponent implements OnInit {
             },
         });
     }
+
+    openPlantOptionsId: number | null = null; // Almacena la planta cuyo menú está abierto
+
+    // Método para alternar el menú desplegable
+    toggleOptions(plantId: number): void {
+        this.openPlantOptionsId = this.openPlantOptionsId === plantId ? null : plantId;
+    }
+
+    // Método para editar una planta
+    editPlant(plant: Plant): void {
+        console.log('Editar planta:', plant);
+        alert(`Editar planta: ${plant.nombre}`);
+    }
+
+    // Método para eliminar una planta
+    deletePlant(plantId: number): void {
+        if (confirm('¿Estás seguro de que deseas eliminar esta planta?')) {
+            console.log('Eliminar planta con ID:', plantId);
+            alert(`Planta con ID ${plantId} eliminada.`);
+        }
+    }
+
+
 
 
     createPlant(): void {
@@ -95,9 +118,9 @@ export class PlantsComponent implements OnInit {
         });
     }
 
-    getFlagForPlant(plantName: string): string | null {
-        const country = this.countries.find((c) => c.name === plantName);
-        return country ? country.flagUrl : null;
+    getFlagForPlant(plant: Plant): string {
+        const country = this.countries.find((c) => c.name === plant.countryName);
+        return country ? country.flagUrl : 'assets/default-flag.png'; // Imagen por defecto si no se encuentra la bandera
     }
 
 
@@ -106,4 +129,5 @@ export class PlantsComponent implements OnInit {
         this.selectedCountryName = null;
         this.isFormSubmitted = false;
     }
+
 }

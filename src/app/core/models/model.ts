@@ -8,11 +8,12 @@ export interface Summary {
 export interface Plant {
     id: number;
     nombre: string;
-    country: Country;
-    cantidadLecturas: number;
-    alertasMedias: number;
-    alertasRojas: number;
+    countryName: string;
+    okReadings?: number;
+    mediumAlerts?: number;
+    redAlerts?: number;
 }
+
 
 export interface Country {
     name: string; // Nombre del país

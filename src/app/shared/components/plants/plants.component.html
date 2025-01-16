@@ -1,53 +1,53 @@
 <div class="p-6 bg-gray-50">
     <h1 class="mb-6 text-2xl font-bold text-gray-800">Gestión de Plantas</h1>
 
-    <!-- Botón para abrir el modal -->
-    <div class="mb-6">
+    <!-- Botón para Crear Nueva Planta -->
+    <div class="mb-6 flex justify-end">
         <button class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600" (click)="openModal()">
             + Crear Nueva Planta
         </button>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal para Crear Nueva Planta -->
     <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg w-96 p-6">
             <h2 class="text-xl font-semibold mb-4">Crear Nueva Planta</h2>
-
-            <form (ngSubmit)="createPlant()" class="space-y-4">
-                <!-- Nombre de la planta -->
-                <div>
-                    <label for="plantName" class="block text-gray-700">Nombre de la planta</label>
+            <form (ngSubmit)="createPlant()">
+                <!-- Campo de Nombre de Planta -->
+                <div class="mb-4">
+                    <label for="plantName" class="block text-gray-700">Nombre de la Planta</label>
                     <input id="plantName" [(ngModel)]="plantName" name="plantName" type="text"
-                        class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Ingresa nombre" required>
-                    <div *ngIf="isFormSubmitted && !plantName" class="text-red-500 text-sm mt-1">
+                        placeholder="Ingresa el nombre"
+                        class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                        required />
+                    <div *ngIf="isFormSubmitted && !plantName" class="text-red-500 text-sm">
                         El nombre de la planta es obligatorio.
                     </div>
                 </div>
 
-                <!-- Selección de país -->
-                <div>
+                <!-- Selección del País -->
+                <div class="mb-4">
                     <label for="countrySelect" class="block text-gray-700">País</label>
                     <select id="countrySelect" [(ngModel)]="selectedCountryName" name="countrySelect"
-                        class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                         required>
                         <option [value]="null" disabled selected>Selecciona un país</option>
                         <option *ngFor="let country of countries" [value]="country.name">
                             {{ country.name }}
                         </option>
                     </select>
-                    <div *ngIf="isFormSubmitted && !selectedCountryName" class="text-red-500 text-sm mt-1">
+                    <div *ngIf="isFormSubmitted && !selectedCountryName" class="text-red-500 text-sm">
                         Seleccionar un país es obligatorio.
                     </div>
                 </div>
 
-                <!-- Botones -->
+                <!-- Botones del Modal -->
                 <div class="flex justify-end space-x-4">
-                    <button type="button" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                    <button type="button" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
                         (click)="closeModal()">
                         Cancelar
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                         Crear
                     </button>
                 </div>
@@ -55,15 +55,55 @@
         </div>
     </div>
 
-    <!-- Lista de Plantas -->
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div *ngFor="let plant of plants" class="p-4 bg-white rounded-lg shadow-md">
-            <h2 class="mb-2 text-xl font-semibold text-gray-700">{{ plant.nombre }}</h2>
-            <div class="flex items-center space-x-2">
-                <img [src]="getFlagForPlant(plant.country.name)" alt="{{ plant.country.name }}"
-                    class="w-6 h-6 rounded-full">
-                <p class="text-gray-500">{{ plant.country.name }}</p>
-            </div>
-        </div>
+    <!-- Tabla de Plantas -->
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full border-collapse">
+            <thead class="bg-blue-100">
+                <tr>
+                    <th class="px-4 py-2 text-left text-gray-700">País</th>
+                    <th class="px-4 py-2 text-left text-gray-700">Nombre de la Planta</th>
+                    <th class="px-4 py-2 text-left text-gray-700">Lecturas OK</th>
+                    <th class="px-4 py-2 text-left text-gray-700">Alertas Medias</th>
+                    <th class="px-4 py-2 text-left text-gray-700">Alertas Rojas</th>
+                    <th class="px-4 py-2 text-left text-gray-700">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let plant of plants" class="border-t hover:bg-gray-50">
+                    <!-- Columna País -->
+                    <td class="px-4 py-2 flex items-center">
+                        <img [src]="getFlagForPlant(plant)" alt="Bandera de {{ plant.countryName }}"
+                            class="w-6 h-4 mr-2" />
+                        {{ plant.countryName }}
+                    </td>
+                    <!-- Columna Nombre de la Planta -->
+                    <td class="px-4 py-2">{{ plant.nombre }}</td>
+                    <td class="px-4 py-2">{{ plant.okReadings || 0 }}</td>
+                    <td class="px-4 py-2">{{ plant.mediumAlerts || 0 }}</td>
+                    <td class="px-4 py-2">{{ plant.redAlerts || 0 }}</td>
+                    <!-- Columna Acciones -->
+                    <td class="px-4 py-2 relative">
+                        <!-- Botón de los tres puntos -->
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none"
+                            (click)="toggleOptions(plant.id)">
+                            &#8942; <!-- Tres puntos verticales -->
+                        </button>
+
+                        <!-- Menú desplegable -->
+                        <div *ngIf="openPlantOptionsId === plant.id"
+                            class="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg w-40">
+                            <button class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                (click)="editPlant(plant)">
+                                Editar
+                            </button>
+                            <button class="block w-full text-left px-4 py-2 text-red-700 hover:bg-red-100"
+                                (click)="deletePlant(plant.id)">
+                                Eliminar
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
