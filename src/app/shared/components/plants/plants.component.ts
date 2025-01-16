@@ -4,7 +4,6 @@ import { Country, Plant } from '../../../core/models/model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
     selector: 'app-plants',
     templateUrl: './plants.component.html',
@@ -12,14 +11,12 @@ import { FormsModule } from '@angular/forms';
     imports: [CommonModule, FormsModule]
 })
 export class PlantsComponent implements OnInit {
-    plants: Plant[] = []; // Lista de plantas
-    countries: Country[] = []; // Lista de países
-    plantName: string = ''; // Nombre de la nueva planta
-    selectedCountryId: number | null = null; // ID del país seleccionado
-    isModalOpen = false; // Estado del modal
-    isFormSubmitted = false; // Estado para validaciones del formulario
+    plants: Plant[] = [];
+    countries: Country[] = [];
+    plantName: string = '';
     selectedCountryName: string | null = null;
-
+    isModalOpen = false;
+    isFormSubmitted = false;
 
     constructor(private apiService: ApiService) { }
 
@@ -28,19 +25,16 @@ export class PlantsComponent implements OnInit {
         this.fetchCountries();
     }
 
-    // Abre el modal
     openModal(): void {
         this.isModalOpen = true;
         this.isFormSubmitted = false;
     }
 
-    // Cierra el modal y resetea el formulario
     closeModal(): void {
         this.isModalOpen = false;
         this.resetForm();
     }
 
-    // Obtiene la lista de plantas desde el backend
     fetchPlants(): void {
         this.apiService.getPlants().subscribe({
             next: (response) => {
@@ -53,35 +47,46 @@ export class PlantsComponent implements OnInit {
         });
     }
 
-    // Obtiene la lista de países desde el backend
     fetchCountries(): void {
         this.apiService.getCountries().subscribe({
             next: (response) => {
-                this.countries = response;
+                // Mapear la respuesta a objetos compatibles con el modelo 'Country'
+                this.countries = response.map((country: any) => ({
+                    name: country.name.common,
+                    flagUrl: country.flags.png,
+                    flags: {
+                        png: country.flags.png,
+                        svg: country.flags.svg,
+                        alt: country.flags.alt || '',
+                    },
+                }));
             },
             error: (err) => {
                 console.error('Error al obtener los países:', err);
+                alert('No se pudo obtener la lista de países.');
             },
         });
     }
 
-    // Crea una nueva planta
+
     createPlant(): void {
+        this.isFormSubmitted = true;
+
         if (!this.plantName || !this.selectedCountryName) {
-            alert('Por favor, completa todos los campos antes de crear una planta.');
+            alert('Por favor, completa todos los campos.');
             return;
         }
 
         const newPlant = {
             nombre: this.plantName,
-            countryName: this.selectedCountryName // Asegúrate de enviar el nombre del país
+            countryName: this.selectedCountryName,
         };
 
         this.apiService.createPlant(newPlant).subscribe({
             next: () => {
                 alert('Planta creada con éxito.');
-                this.fetchPlants(); // Actualiza la lista de plantas
-                this.closeModal(); // Cierra el modal
+                this.fetchPlants();
+                this.closeModal();
             },
             error: (err) => {
                 console.error('Error al crear la planta:', err);
@@ -89,10 +94,16 @@ export class PlantsComponent implements OnInit {
             },
         });
     }
-    // Resetea el formulario
+
+    getFlagForPlant(plantName: string): string | null {
+        const country = this.countries.find((c) => c.name === plantName);
+        return country ? country.flagUrl : null;
+    }
+
+
     resetForm(): void {
         this.plantName = '';
-        this.selectedCountryId = null;
+        this.selectedCountryName = null;
         this.isFormSubmitted = false;
     }
 }

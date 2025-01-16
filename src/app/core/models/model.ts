@@ -15,9 +15,13 @@ export interface Plant {
 }
 
 export interface Country {
-    id: number;
-    name: string;
-    flagUrl: string;
+    name: string; // Nombre del país
+    flagUrl: string; // URL de la bandera
+    flags?: { // Estructura opcional para cumplir con la API
+        png: string;
+        svg?: string;
+        alt?: string;
+    };
 }
 
 export interface TokenPayload {

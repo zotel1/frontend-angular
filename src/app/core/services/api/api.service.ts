@@ -25,7 +25,12 @@ export class ApiService {
 
     // Obtener lista de países
     getCountries(): Observable<Country[]> {
-        return this.httpClient.get<Country[]>(`${this.apiUrl}/countries`, { headers: this.getHeaders() });
+        return this.httpClient.get<Country[]>(`${this.apiUrl}/countries`, { headers: this.getHeaders() }).pipe(
+            catchError((error) => {
+                console.error('Error al obtener los países:', error);
+                return throwError(() => new Error('No se pudo obtener la lista de países.'));
+            })
+        );
     }
 
     // Obtener lista de plantas
@@ -47,6 +52,7 @@ export class ApiService {
             })
         );
     }
+
 
 
 

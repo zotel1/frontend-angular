@@ -1,67 +1,69 @@
 <div class="p-6 bg-gray-50">
     <h1 class="mb-6 text-2xl font-bold text-gray-800">Gestión de Plantas</h1>
-<!-- Botón para abrir el modal -->
-<div class="mb-6">
-    <button class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600" (click)="openModal()">
-        + Crear Nueva Planta
-    </button>
-</div>
 
-<!-- Modal -->
-<div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-    <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-        <h2 class="text-xl font-semibold mb-4">Crear Nueva Planta</h2>
+    <!-- Botón para abrir el modal -->
+    <div class="mb-6">
+        <button class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600" (click)="openModal()">
+            + Crear Nueva Planta
+        </button>
+    </div>
 
-        <!-- Campo de Nombre de la Planta -->
-        <div class="mb-4">
-            <label for="plantName" class="block text-gray-700">Nombre de la planta</label>
-            <input id="plantName" [(ngModel)]="plantName" type="text" placeholder="Ingresa nombre"
-                class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" />
-            <!-- Mensaje de Validación -->
-            <div *ngIf="isFormSubmitted && !plantName" class="text-red-500 text-sm">
-                El nombre de la planta es obligatorio.
-            </div>
-        </div>
+    <!-- Modal -->
+    <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+            <h2 class="text-xl font-semibold mb-4">Crear Nueva Planta</h2>
 
-        <!-- Campo de Selección de País -->
-        <div class="mb-4">
-            <label for="countrySelect" class="block text-gray-700">País</label>
-            <select id="countrySelect" [(ngModel)]="selectedCountryName"
-                class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
-                <option [value]="null" disabled selected>Selecciona un país</option>
-                <option *ngFor="let country of countries" [value]="country.name">
-                    {{ country.name }}
-                </option>
-            </select>
-            <!-- Mensaje de Validación -->
-            <div *ngIf="isFormSubmitted && !selectedCountryName" class="text-red-500 text-sm">
-                Seleccionar un país es obligatorio.
-            </div>
-        </div>
+            <form (ngSubmit)="createPlant()" class="space-y-4">
+                <!-- Nombre de la planta -->
+                <div>
+                    <label for="plantName" class="block text-gray-700">Nombre de la planta</label>
+                    <input id="plantName" [(ngModel)]="plantName" name="plantName" type="text"
+                        class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ingresa nombre" required>
+                    <div *ngIf="isFormSubmitted && !plantName" class="text-red-500 text-sm mt-1">
+                        El nombre de la planta es obligatorio.
+                    </div>
+                </div>
 
-        <!-- Botones del Modal -->
-        <div class="flex justify-end space-x-4">
-            <button class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300" (click)="closeModal()">
-                Cancelar
-            </button>
-            <button class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700" (click)="createPlant()">
-                Crear
-            </button>
+                <!-- Selección de país -->
+                <div>
+                    <label for="countrySelect" class="block text-gray-700">País</label>
+                    <select id="countrySelect" [(ngModel)]="selectedCountryName" name="countrySelect"
+                        class="w-full mt-2 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                        <option [value]="null" disabled selected>Selecciona un país</option>
+                        <option *ngFor="let country of countries" [value]="country.name">
+                            {{ country.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="isFormSubmitted && !selectedCountryName" class="text-red-500 text-sm mt-1">
+                        Seleccionar un país es obligatorio.
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex justify-end space-x-4">
+                    <button type="button" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                        (click)="closeModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Crear
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</div>
+
     <!-- Lista de Plantas -->
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div *ngFor="let plant of plants" class="p-4 bg-white rounded-lg shadow-md">
             <h2 class="mb-2 text-xl font-semibold text-gray-700">{{ plant.nombre }}</h2>
-            <p class="text-gray-500">País: {{ plant.country.name }}</p>
-            <p class="text-gray-500">
-                Bandera:
-                <img [src]="plant.country.flagUrl" alt="Bandera" class="inline-block w-8 h-8 border rounded-md" />
-            </p>
-            <p class="text-gray-500">Lecturas OK: {{ plant.cantidadLecturas }}</p>
-            <p class="text-gray-500">Alertas Medias: {{ plant.alertasMedias }}</p>
-            <p class="text-gray-500">Alertas Rojas: {{ plant.alertasRojas }}</p>
+            <div class="flex items-center space-x-2">
+                <img [src]="getFlagForPlant(plant.country.name)" alt="{{ plant.country.name }}"
+                    class="w-6 h-6 rounded-full">
+                <p class="text-gray-500">{{ plant.country.name }}</p>
+            </div>
         </div>
     </div>
 </div>
