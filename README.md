@@ -1,59 +1,41 @@
-# FrontendAngular
+# **Manejo de Plantas - Frontend- FORBTECH**
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+## **Descripción**
+Este proyecto es el frontend de una aplicación para gestionar plantas, desarrollado con **Angular** y estilizado con **Tailwind CSS**. La aplicación permite interactuar con un backend (que incluye autenticación con **JWT**) para realizar las siguientes acciones:
 
-## Development server
+- Gestionar plantas (crear, leer, actualizar y eliminar).
+- Visualizar lecturas y alertas.
+- Mostrar detalles de países utilizando datos de una API externa ([Rest Countries](https://restcountries.com/)).
 
-To start a local development server, run:
+---
 
+## **Características principales**
+- **Autenticación con JWT**: Inicio de sesión seguro para acceder a las funcionalidades de la aplicación.
+- **Dashboard interactivo**:
+  - **Sidebar** con cuatro secciones principales:
+    - **Dashboard**: Resumen de información.
+    - **Plantas**: Gestión de plantas con opción de crear, actualizar y eliminar.
+    - **Lecturas**: Detalle de lecturas asociadas a las plantas.
+    - **Países**: Información de países, incluida su bandera.
+  - **Tarjetas dinámicas**:
+    - Resumen de lecturas y alertas.
+    - Listado de plantas con su país y bandera.
+    - Detalle de un país seleccionado.
+- **Tailwind CSS**: Diseño moderno y responsivo.
+
+---
+
+## **Requisitos**
+- **Node.js** (versión 16 o superior).
+- **Angular CLI** (versión 15 o superior).
+- **Backend** funcionando en local o servidor remoto.
+- Navegador web compatible con ES6.
+
+---
+
+## **Instalación**
+
+### **1. Clonar el repositorio**
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+git clone https://github.com/tu_usuario/tu_proyecto_frontend.git
+cd tu_proyecto_frontend
