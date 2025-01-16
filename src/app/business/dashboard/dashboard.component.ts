@@ -4,47 +4,45 @@ import { ApiService } from '../../core/services/api/api.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { PlantsComponent } from '../../shared/components/plants/plants.component';
+import { PlantDetailComponent } from '../plants/plant-detail/plant-detail.component';
+import { Plant } from '../../core/models/model';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [CommonModule, PlantsComponent, SidebarComponent]
+    standalone: true,
+    imports: [CommonModule, PlantsComponent, SidebarComponent, PlantDetailComponent]
 })
 export class DashboardComponent implements OnInit {
-    userName: string | null = null;
-    summary: any; // Datos del resumen
-    plants: any[] = []; // Lista de plantas
+    userName: string | null = null; // Nombre de usuario obtenido del token
+    summary: any = null; // Datos del resumen de alertas
+    selectedPlant: Plant | null = null; // Planta seleccionada desde la tabla
+    selectedPlantFlag: string | null = null; // Bandera asociada a la planta seleccionada
 
     constructor(private apiService: ApiService, private authService: AuthService) { }
 
     ngOnInit(): void {
-        this.fetchSummary();
-        this.fetchPlants();
-        this.userName = this.authService.getUsernameFromToken();
+        this.fetchSummary(); // Obtener datos del resumen
+        this.userName = this.authService.getUsernameFromToken(); // Obtener nombre de usuario
+    }
+
+    // Manejar la selección de una planta desde el componente Plants
+    handlePlantSelection(event: { plant: Plant; flagUrl: string }): void {
+        console.log('Planta seleccionada en Dashboard:', event);
+        this.selectedPlant = event.plant;
+        this.selectedPlantFlag = event.flagUrl;
     }
 
     // Obtener datos del resumen
     fetchSummary(): void {
-        this.apiService.getSummary().subscribe(
-            (data) => {
+        this.apiService.getSummary().subscribe({
+            next: (data) => {
                 this.summary = data;
             },
-            (error) => {
-                console.error('Error al obtener el resumen:', error);
+            error: (err) => {
+                console.error('Error al obtener el resumen:', err);
             }
-        );
-    }
-
-    // Obtener lista de plantas
-    fetchPlants(): void {
-        this.apiService.getPlants().subscribe(
-            (data) => {
-                this.plants = data;
-            },
-            (error) => {
-                console.error('Error al obtener plantas:', error);
-            }
-        );
+        });
     }
 }

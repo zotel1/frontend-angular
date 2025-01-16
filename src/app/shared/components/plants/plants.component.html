@@ -69,7 +69,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let plant of plants" class="border-t hover:bg-gray-50">
+                <tr *ngFor="let plant of plants" class="border-t hover:bg-gray-50 cursor-pointer"
+                    (click)="selectPlant(plant)" [class.bg-blue-100]="selectedPlantId === plant.id">
                     <!-- Columna País -->
                     <td class="px-4 py-2 flex items-center">
                         <img [src]="getFlagForPlant(plant)" alt="Bandera de {{ plant.countryName }}"
@@ -88,7 +89,6 @@
                             (click)="toggleOptions(plant.id)">
                             &#8942; <!-- Tres puntos verticales -->
                         </button>
-
                         <!-- Menú desplegable -->
                         <div *ngIf="openPlantOptionsId === plant.id"
                             class="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg w-40">

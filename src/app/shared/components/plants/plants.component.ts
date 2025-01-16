@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../../core/services/api/api.service';
 import { Country, Plant } from '../../../core/models/model';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
     imports: [CommonModule, FormsModule]
 })
 export class PlantsComponent implements OnInit {
+    @Output() plantSelected = new EventEmitter<{ plant: Plant; flagUrl: string }>();
     plants: Plant[] = [];
     countries: Country[] = [];
     plantName: string = '';
@@ -18,7 +19,9 @@ export class PlantsComponent implements OnInit {
     isModalOpen = false;
     isFormSubmitted = false;
     userName: string | null = null;
-    summary: any; // Datos del resumen
+    summary: any;
+    selectedPlantId: number | null = null; // ID de la planta seleccionada
+    openPlantOptionsId: number | null = null; // ID de la planta cuyo menú está abierto
 
     constructor(private apiService: ApiService) { }
 
@@ -27,7 +30,6 @@ export class PlantsComponent implements OnInit {
         this.fetchCountries();
         this.fetchSummary();
     }
-
 
     // Abre el modal
     openModal(): void {
@@ -42,6 +44,13 @@ export class PlantsComponent implements OnInit {
         this.resetForm();
     }
 
+    // Método para seleccionar una planta al hacer clic
+    selectPlant(plant: Plant): void {
+        this.selectedPlantId = plant.id; // Marcar la planta como seleccionada
+        const country = this.countries.find((c) => c.name === plant.countryName);
+        const flagUrl = country ? country.flagUrl : 'assets/default-flag.png';
+        this.plantSelected.emit({ plant, flagUrl }); // Emitir evento con la planta seleccionada
+    }
 
     // Obtiene los países desde la API
     fetchCountries(): void {
@@ -59,9 +68,13 @@ export class PlantsComponent implements OnInit {
         });
     }
 
-    openPlantOptionsId: number | null = null; // Almacena la planta cuyo menú está abierto
+    // Obtiene la bandera de una planta
+    getFlagForPlant(plant: Plant): string {
+        const country = this.countries.find((c) => c.name === plant.countryName);
+        return country ? country.flagUrl : 'assets/default-flag.png'; // Imagen por defecto si no se encuentra la bandera
+    }
 
-    // Método para alternar el menú desplegable
+    // Alterna el menú desplegable
     toggleOptions(plantId: number): void {
         this.openPlantOptionsId = this.openPlantOptionsId === plantId ? null : plantId;
     }
@@ -80,7 +93,7 @@ export class PlantsComponent implements OnInit {
         }
     }
 
-    // Obtener datos del resumen
+    // Obtiene los datos del resumen
     fetchSummary(): void {
         this.apiService.getSummary().subscribe(
             (data) => {
@@ -92,7 +105,7 @@ export class PlantsComponent implements OnInit {
         );
     }
 
-    // Obtener lista de plantas
+    // Obtiene la lista de plantas
     fetchPlants(): void {
         this.apiService.getPlants().subscribe(
             (data) => {
@@ -104,7 +117,7 @@ export class PlantsComponent implements OnInit {
         );
     }
 
-
+    // Crea una nueva planta
     createPlant(): void {
         this.isFormSubmitted = true;
 
@@ -131,16 +144,10 @@ export class PlantsComponent implements OnInit {
         });
     }
 
-    getFlagForPlant(plant: Plant): string {
-        const country = this.countries.find((c) => c.name === plant.countryName);
-        return country ? country.flagUrl : 'assets/default-flag.png'; // Imagen por defecto si no se encuentra la bandera
-    }
-
-
+    // Reinicia el formulario
     resetForm(): void {
         this.plantName = '';
         this.selectedCountryName = null;
         this.isFormSubmitted = false;
     }
-
 }
