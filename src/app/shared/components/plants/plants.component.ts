@@ -17,12 +17,15 @@ export class PlantsComponent implements OnInit {
     selectedCountryName: string | null = null;
     isModalOpen = false;
     isFormSubmitted = false;
+    userName: string | null = null;
+    summary: any; // Datos del resumen
 
     constructor(private apiService: ApiService) { }
 
     ngOnInit(): void {
         this.fetchPlants();
         this.fetchCountries();
+        this.fetchSummary();
     }
 
 
@@ -39,18 +42,6 @@ export class PlantsComponent implements OnInit {
         this.resetForm();
     }
 
-    // Obtiene las plantas desde la API
-    fetchPlants(): void {
-        this.apiService.getPlants().subscribe({
-            next: (response) => {
-                this.plants = response;
-            },
-            error: (err) => {
-                console.error('Error al obtener las plantas:', err);
-                alert('No se pudo obtener la lista de plantas.');
-            },
-        });
-    }
 
     // Obtiene los países desde la API
     fetchCountries(): void {
@@ -89,7 +80,29 @@ export class PlantsComponent implements OnInit {
         }
     }
 
+    // Obtener datos del resumen
+    fetchSummary(): void {
+        this.apiService.getSummary().subscribe(
+            (data) => {
+                this.summary = data;
+            },
+            (error) => {
+                console.error('Error al obtener el resumen:', error);
+            }
+        );
+    }
 
+    // Obtener lista de plantas
+    fetchPlants(): void {
+        this.apiService.getPlants().subscribe(
+            (data) => {
+                this.plants = data;
+            },
+            (error) => {
+                console.error('Error al obtener plantas:', error);
+            }
+        );
+    }
 
 
     createPlant(): void {

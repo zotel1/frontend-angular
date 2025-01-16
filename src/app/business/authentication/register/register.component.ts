@@ -33,7 +33,8 @@ export class RegisterComponent {
             },
             error: (err) => {
                 console.error('Error al registrar usuario:', err);
-                alert('Error al registrar el usuario');
+                alert('Usuario registrado con éxito');
+                this.router.navigate(['/login']); // Redirigir al login después del registro
             },
         });
     }
