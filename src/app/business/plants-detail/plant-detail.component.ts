@@ -27,17 +27,12 @@ export class PlantDetailComponent implements OnChanges {
     ];
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('Cambios detectados en PlantDetail:', changes); // LOG PARA DEPURAR
         if (this.summary) {
             this.summaryCards = [
-                { label: 'Temperatura', value: this.summary.mediumAlerts || 0, unit: '°C' },
-                { label: 'Presión', value: this.summary.readingsOk || 0, unit: 'hPa' },
-                { label: 'Viento', value: this.summary.mediumAlerts || 0, unit: 'km/h' },
-                { label: 'Niveles', value: this.summary.disabledSensors || 0, unit: '%' },
-                { label: 'Energía', value: this.summary.mediumAlerts || 0, unit: 'kWh' },
-                { label: 'Tensión', value: this.summary.readingsOk || 0, unit: 'V' },
-                { label: 'CO2', value: this.summary.redAlerts || 0, unit: 'ppm' },
-                { label: 'Gases', value: this.summary.disabledSensors || 0, unit: 'ppm' },
+                { label: 'Lecturas OK', value: this.summary.readingsOk || 0, unit: '' },
+                { label: 'Alertas Medias', value: this.summary.mediumAlerts || 0, unit: '' },
+                { label: 'Alertas Rojas', value: this.summary.redAlerts || 0, unit: '' },
+                { label: 'Sensores Inactivos', value: this.summary.disabledSensors || 0, unit: '' }
             ];
         }
     }
