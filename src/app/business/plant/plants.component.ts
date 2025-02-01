@@ -5,10 +5,10 @@ import { Country, Plant } from '../../core/models/model';
 @Component({
   selector: 'app-tables',
   imports: [],
-  templateUrl: './tables.component.html',
-  styleUrl: './tables.component.css'
+  templateUrl: './plants.component.html',
+  styleUrl: './plants.component.css'
 })
-export default class TablesComponent implements OnInit{    plants: Plant[] = [];
+export default class PlantsComponent implements OnInit{    plants: Plant[] = [];
     countries: Country[] = [];
 
     constructor(private apiService: ApiService) { }

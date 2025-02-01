@@ -4,7 +4,7 @@ import { ApiService } from '../../core/services/api/api.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { PlantsComponent } from '../../shared/components/plants/plants.component';
-import { PlantDetailComponent } from '../plants/plant-detail/plant-detail.component';
+import { PlantDetailComponent } from '../plants-detail/plant-detail.component';
 import { Plant } from '../../core/models/model';
 import { RouterOutlet } from '@angular/router';
 

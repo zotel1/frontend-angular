@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Plant, Summary } from '../../../core/models/model';
+import { Plant, Summary } from '../../core/models/model';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 
 @Component({
     selector: 'app-plant-detail',
