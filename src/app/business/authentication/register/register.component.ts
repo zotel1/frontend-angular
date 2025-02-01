@@ -25,19 +25,20 @@ export class RegisterComponent {
 
     onRegister(): void {
         const payload = { username: this.username, password: this.password, role: this.role };
+    
         this.authService.register(payload).subscribe({
             next: (response) => {
-                console.log('Respuesta exitosa:', response);
+                console.log('Usuario registrado:', response);
                 alert('Usuario registrado con éxito');
                 this.router.navigate(['/login']); // Redirigir al login después del registro
             },
             error: (err) => {
                 console.error('Error al registrar usuario:', err);
-                alert('Usuario registrado con éxito');
-                this.router.navigate(['/login']); // Redirigir al login después del registro
-            },
+                alert('Error en el registro');
+            }
         });
     }
+    
 
 }
 

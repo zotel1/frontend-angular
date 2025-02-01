@@ -15,29 +15,63 @@ export class AuthService {
 
     constructor(private httpClient: HttpClient) { }
 
+    register(payload: { username: string; password: string; role: string }): Observable<any> {
+        return this.httpClient.post(`${this.apiUrl}/register`, payload, {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        });
+    }
+
     login(credentials: { user: string; password: string }): Observable<any> {
         return this.httpClient.post(`${this.apiUrl}/login`, credentials);
     }
 
     saveToken(token: string): void {
-        localStorage.setItem(this.tokenKey, token);
-        this.authStatus.next(true);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem(this.tokenKey, token);
+            this.authStatus.next(true);
+        }
     }
+    
 
     getToken(): string | null {
-        return localStorage.getItem(this.tokenKey);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            return localStorage.getItem(this.tokenKey);
+        }
+        return null;
     }
+    
 
     isAuthenticated(): boolean {
         return !!this.getToken();
     }
 
     logout(): void {
-        localStorage.removeItem(this.tokenKey);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.removeItem(this.tokenKey);
+        }
         this.authStatus.next(false);
     }
+    
 
     getAuthStatus(): Observable<boolean> {
         return this.authStatus.asObservable();
     }
+
+    getUsernameFromToken(): string | null {
+        const decoded = this.getDecodedToken();
+        return decoded ? decoded.username : null;
+    }
+    
+    getDecodedToken(): TokenPayload | null {
+        const token = this.getToken();
+        if (!token) return null;
+        try {
+            return jwtDecode<TokenPayload>(token);
+        } catch (error) {
+            console.error('Error al decodificar el token:', error);
+            return null;
+        }
+    }
+    
+    
 }
