@@ -10,7 +10,7 @@ import { TokenPayload } from "../../models/model";
 })
 export class AuthService {
     private readonly tokenKey = 'token';
-    private readonly apiUrl = 'https://fullstack-backend-java-production.up.railway.app/api/v1/auth';
+    private readonly apiUrl = 'https://backend-earthplant.up.railway.app/api/v1/auth';
 
     constructor(private httpClient: HttpClient) { }
 
