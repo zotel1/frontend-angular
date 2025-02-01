@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../core/services/api/api.service';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { PlantsComponent } from '../../shared/components/plants/plants.component';
 import { PlantDetailComponent } from '../plants-detail/plant-detail.component';
 import { Plant } from '../../core/models/model';
@@ -13,7 +12,7 @@ import { RouterOutlet } from '@angular/router';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
     standalone: true,
-    imports: [CommonModule, PlantsComponent, SidebarComponent, PlantDetailComponent, RouterOutlet]
+    imports: [CommonModule, PlantsComponent, PlantDetailComponent, RouterOutlet]
 })
 export class DashboardComponent implements OnInit {
     userName: string | null = null; // Nombre de usuario obtenido del token

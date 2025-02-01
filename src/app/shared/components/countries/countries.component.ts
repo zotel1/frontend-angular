@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../../core/services/api/api.service';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
 import { Country, Plant } from '../../../core/models/model';
 
@@ -9,7 +8,7 @@ import { Country, Plant } from '../../../core/models/model';
     selector: 'app-countries',
     templateUrl: './countries.component.html',
     styleUrls: ['./countries.component.css'],
-    imports: [CommonModule, SidebarComponent, RouterOutlet]
+    imports: [CommonModule, RouterOutlet]
 })
 export class CountriesComponent implements OnInit {
     countries: { name: string; flagUrl: string }[] = []; // Array de países
