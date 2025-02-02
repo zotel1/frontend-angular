@@ -43,6 +43,11 @@ export class ApiService {
         );
     }
 
+    getPlantDetails(plantId: number): Observable<any> {
+        return this.httpClient.get(`${this.apiUrl}/plants/${plantId}`);
+    }
+    
+
     // Crear nueva planta
     createPlant(plant: { nombre: string; countryName: string }): Observable<any> {
         return this.httpClient.post(`${this.apiUrl}/plants/create`, plant, { headers: this.getHeaders() }).pipe(
