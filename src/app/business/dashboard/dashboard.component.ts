@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../core/services/api/api.service';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { PlantsComponent } from '../../shared/components/plants/plants.component';
 import { PlantDetailComponent } from '../plants-detail/plant-detail.component';
 import { Plant } from '../../core/models/model';
 import { RouterOutlet } from '@angular/router';
+import { PlantsComponent } from '../plant/plants.component';
 
 @Component({
     selector: 'app-dashboard',

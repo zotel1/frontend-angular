@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ApiService } from '../../../core/services/api/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Country, Plant } from '../../../core/models/model';
+import { ApiService } from '../../core/services/api/api.service';
+
 
 @Component({
     selector: 'app-countries',

@@ -1,14 +1,15 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Country, Plant } from '../../core/models/model';
+import { RouterOutlet } from '@angular/router';
 import { ApiService } from '../../core/services/api/api.service';
+import { Country, Plant } from '../../core/models/model';
 
 @Component({
     selector: 'app-plants',
     templateUrl: './plants.component.html',
     styleUrls: ['./plants.component.css'],
-    imports: [CommonModule, FormsModule]
+    imports: [CommonModule, FormsModule, RouterOutlet]
 })
 export class PlantsComponent implements OnInit {
     @Output() plantSelected = new EventEmitter<{ plant: Plant; flagUrl: string }>();
