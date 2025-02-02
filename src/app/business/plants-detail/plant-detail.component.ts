@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Plant, Summary } from '../../core/models/model';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { ApiService } from '../../core/services/api/api.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-plant-detail',
@@ -10,12 +11,41 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
     styleUrls: ['./plant-detail.component.css'],
     imports: [CommonModule],
 })
-export class PlantDetailComponent implements OnChanges {
+export class PlantDetailComponent implements OnInit {
     @Input() plant: Plant | null = null; // Datos de la planta seleccionada
     @Input() flagUrl: string | null = null; // URL de la bandera
     @Input() summary: Summary | null = null; // Datos del summary para la planta
 
-    summaryCards = [
+    constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+
+    ngOnInit(): void {
+        this.route.params.subscribe(params => {
+            const plantId = params['id'];
+            if (plantId) {
+                this.fetchPlantDetails(plantId);
+            }
+        });
+    }
+
+    fetchPlantDetails(plantId: number): void {
+        this.apiService.getPlantDetails(plantId).subscribe({
+            next: (data) => {
+                this.plant = data;
+                this.summary = {
+                    readingsOk: data.readingsOk,
+                    mediumAlerts: data.mediumAlerts,
+                    redAlerts: data.redAlerts,
+                    disabledSensors: data.disabledSensors
+                };
+            },
+            error: (err) => {
+                console.error('Error al obtener los detalles de la planta:', err);
+            }
+        });
+    }
+}
+
+/*    summaryCards = [
         { label: 'Temperatura', value: 0, unit: '°C' },
         { label: 'Presión', value: 0, unit: 'hPa' },
         { label: 'Viento', value: 0, unit: 'km/h' },
@@ -37,3 +67,4 @@ export class PlantDetailComponent implements OnChanges {
         }
     }
 }
+*/

@@ -16,7 +16,7 @@ export const appRoutes: Routes = [
             { path: 'dashboard', loadComponent: () => import('./business/dashboard/dashboard.component').then(m => m.DashboardComponent), canActivate: [AuthGuard] },
             { path: 'plants', loadComponent: () => import('./business/plant/plants.component').then(m => m.PlantsComponent), canActivate: [AuthGuard] },
             { path: 'countries', loadComponent: () => import('./business/countries/countries.component').then(m => m.CountriesComponent), canActivate: [AuthGuard] },
-            { path: 'details', loadComponent: () => import('./business/plants-detail/plant-detail.component').then(m => m.PlantDetailComponent), canActivate: [AuthGuard] },
+            { path: 'details/:id', loadComponent: () => import('./business/plants-detail/plant-detail.component').then(m => m.PlantDetailComponent), canActivate: [AuthGuard] },
         ]
     },
     { path: '**', redirectTo: '/dashboard' }, // Ruta por defecto
