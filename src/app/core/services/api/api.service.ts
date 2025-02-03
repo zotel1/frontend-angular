@@ -46,6 +46,11 @@ export class ApiService {
     getPlantDetails(plantId: number): Observable<any> {
         return this.httpClient.get(`${this.apiUrl}/plants/${plantId}`);
     }
+
+    // Este metodo nos permite hacer peticiones a la API de paginacion
+    getPaginatedPlants(page: number, size: number): Observable<any> {
+        return this.httpClient.get<any>(`${this.apiUrl}/plants/list-paginated?page=${page}&size=${size}`, { headers: this.getHeaders() });
+    }
     
 
     // Crear nueva planta
