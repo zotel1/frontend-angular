@@ -3,29 +3,59 @@ import { Plant, Summary } from '../../core/models/model';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { response } from 'express';
 
 @Component({
     selector: 'app-plant-detail',
     standalone: true,
     templateUrl: './plant-detail.component.html',
     styleUrls: ['./plant-detail.component.css'],
-    imports: [CommonModule],
+  //  imports: [CommonModule],
 })
 export class PlantDetailComponent implements OnInit {
-    @Input() plant: Plant | null = null; // Datos de la planta seleccionada
-    @Input() flagUrl: string | null = null; // URL de la bandera
-    @Input() summary: Summary | null = null; // Datos del summary para la planta
+    //@Input() plant: Plant | null = null; // Datos de la planta seleccionada
+   // @Input() flagUrl: string | null = null; // URL de la bandera
+   // @Input() summary: Summary | null = null; // Datos del summary para la planta
+
+   plant: any;
+   page = 0;
+   pageSize = 1;
 
     constructor(private apiService: ApiService, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this.route.params.subscribe(params => {
-            const plantId = params['id'];
-            if (plantId) {
-                this.fetchPlantDetails(plantId);
+//        this.route.params.subscribe(params => {
+  //          const plantId = params['id'];
+    //        if (plantId) {
+      //          this.fetchPlantDetails(plantId);
+        //    }
+        //});
+        this.loadPlant();
+    }
+
+    loadPlant(): void {
+        this.apiService.getPaginatedPlants(this.page, this.pageSize).subscribe(response => {
+            if (response.content.length > 0) {
+                this.plant = response.content[0]; // Solo obtenemos un resultado
             }
         });
     }
+
+    nextPlant(): void {
+        this.page++;
+        this.loadPlant();
+    }
+
+    prevPlant(): void {
+        if (this.page > 0) {
+            this.page--;
+            this.loadPlant();
+        }
+    }
+
+}
+
+    /*
 
     fetchPlantDetails(plantId: number): void {
         this.apiService.getPlantDetails(plantId).subscribe({
@@ -45,7 +75,7 @@ export class PlantDetailComponent implements OnInit {
     }
 }
 
-/*    summaryCards = [
+    summaryCards = [
         { label: 'Temperatura', value: 0, unit: '°C' },
         { label: 'Presión', value: 0, unit: 'hPa' },
         { label: 'Viento', value: 0, unit: 'km/h' },
