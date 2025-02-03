@@ -1,30 +1,42 @@
 <div class="bg-gray-50 rounded-lg shadow p-6">
-    <h2 class="text-xl font-bold text-gray-800 mb-6">Monitoreo por planta</h2>
+    <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Monitoreo por planta</h2>
 
-    <div class="flex items-center mb-6">
-        <img [src]="flagUrl" alt="Bandera de {{ plant?.countryName }}" class="w-12 h-8 mr-4" />
+    <!-- Información de la planta -->
+    <div class="flex items-center justify-center mb-6">
+        <img [src]="plant?.flagUrl" alt="Bandera de {{ plant?.countryName }}" class="w-12 h-8 mr-4 rounded border border-gray-300" />
         <div>
             <p class="text-lg font-semibold text-gray-700">{{ plant?.countryName }}</p>
             <p class="text-lg text-gray-600">{{ plant?.nombre }}</p>
         </div>
     </div>
 
+    <!-- Lecturas de la planta -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white shadow-md rounded-lg p-4 text-center">
             <h3 class="text-sm font-semibold text-gray-500">Lecturas OK</h3>
-            <p class="text-xl font-bold text-blue-600">{{ summary?.readingsOk || 0 }}</p>
+            <p class="text-xl font-bold text-blue-600">{{ plant?.cantidadLecturas || 0 }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4 text-center">
             <h3 class="text-sm font-semibold text-gray-500">Alertas Medias</h3>
-            <p class="text-xl font-bold text-blue-600">{{ summary?.mediumAlerts || 0 }}</p>
+            <p class="text-xl font-bold text-yellow-600">{{ plant?.alertasMedias || 0 }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4 text-center">
             <h3 class="text-sm font-semibold text-gray-500">Alertas Rojas</h3>
-            <p class="text-xl font-bold text-red-600">{{ summary?.redAlerts || 0 }}</p>
+            <p class="text-xl font-bold text-red-600">{{ plant?.alertasRojas || 0 }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4 text-center">
             <h3 class="text-sm font-semibold text-gray-500">Sensores Inactivos</h3>
-            <p class="text-xl font-bold text-gray-600">{{ summary?.disabledSensors || 0 }}</p>
+            <p class="text-xl font-bold text-gray-600">{{ plant?.sensoresInactivos || 0 }}</p>
         </div>
+    </div>
+
+    <!-- Botones de Navegación -->
+    <div class="flex justify-between mt-6">
+        <button (click)="prevPlant()" [disabled]="page === 0" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 disabled:opacity-50">
+            Anterior
+        </button>
+        <button (click)="nextPlant()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Siguiente
+        </button>
     </div>
 </div>
