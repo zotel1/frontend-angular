@@ -110,8 +110,16 @@ export class PlantsComponent implements OnInit {
     // Obtiene la lista de plantas
     fetchPlants(): void {
         this.apiService.getPlants().subscribe(
-            (data) => {
-                this.plants = data;
+            (data: Plant[]) => {
+                this.plants = data.map(plant => ({
+                    ...plant,
+                    cantidadLecturas: plant.cantidadLecturas || 0,
+                    alertasMedias: plant.alertasMedias || 0,
+                    alertasRojas: plant.alertasRojas || 0,
+                    sensoresInactivos: plant.sensoresInactivos || 0,
+                    countryFlagUrl: plant.countryFlagUrl || 'assets/default-flag.png'
+                }));
+                console.log("Plantas recibidas:", this.plants);
             },
             (error) => {
                 console.error('Error al obtener plantas:', error);
