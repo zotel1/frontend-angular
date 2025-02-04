@@ -97,8 +97,13 @@ export class PlantsComponent implements OnInit {
     // Obtiene los datos del resumen
     fetchSummary(): void {
         this.apiService.getSummary().subscribe(
-            (data) => {
-                this.summary = data;
+            (data: Summary) => {
+                this.summary = {
+                    cantidadLecturas: data.cantidadLecturas || 0,
+                    alertasMedias: data.alertasMedias || 0,
+                    alertasRojas: data.alertasRojas || 0,
+                    sensoresInactivos: data.sensoresInactivos || 0
+                };
                 console.log("Resumen recibido:", this.summary);
             },
             (error) => {
