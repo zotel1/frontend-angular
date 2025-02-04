@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from '../../core/services/api/api.service';
-import { Country, Plant } from '../../core/models/model';
+import { Country, Plant, Summary } from '../../core/models/model';
 
 @Component({
     selector: 'app-plants',
@@ -20,7 +20,7 @@ export class PlantsComponent implements OnInit {
     isModalOpen = false;
     isFormSubmitted = false;
     userName: string | null = null;
-    summary: any;
+    summary: Summary | null = null;
     selectedPlantId: number | null = null; // ID de la planta seleccionada
     openPlantOptionsId: number | null = null; // ID de la planta cuyo menú está abierto
 
@@ -99,6 +99,7 @@ export class PlantsComponent implements OnInit {
         this.apiService.getSummary().subscribe(
             (data) => {
                 this.summary = data;
+                console.log("Resumen recibido:", this.summary);
             },
             (error) => {
                 console.error('Error al obtener el resumen:', error);

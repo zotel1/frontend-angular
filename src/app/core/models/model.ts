@@ -1,17 +1,19 @@
 export interface Summary {
-    readingsOk: number;
-    mediumAlerts: number;
-    redAlerts: number;
-    disabledSensors: number;
+    cantidadLecturas: number;
+    alertasMedias: number;
+    alertasRojas: number;
+    sensoresInactivos: number;
 }
  
 export interface Plant {
     id: number;
     nombre: string;
     countryName: string;
-    okReadings?: number;
-    mediumAlerts?: number;
-    redAlerts?: number;
+    countryFlagUrl: string;
+    cantidadLecturas: number;
+    alertasMedias: number;
+    alertasRojas: number;
+    sensoresInactivos: number;
 }
 
 
