@@ -8,11 +8,11 @@
     </div>
         
         <img *ngIf="flagUrl" [src]="flagUrl" alt="Bandera de {{ plant?.countryName }}" 
-            class="w-12 h-8 mr-4 rounded border border-gray-300" />
+            class="w-12 h-8 mr-4 rounded border border-gray-300 flex items-center justify-center mb-20" />
         
         <div>
             
-            <p class="text-lg text-gray-600">{{ plant?.nombre }}</p>
+            <p class="text-lg text-gray-600 flex items-center justify-center mb-20 ">{{ plant?.nombre }}</p>
         </div>
     </div>
     
