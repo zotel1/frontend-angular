@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Plant } from '../../core/models/model';
 import { ApiService } from '../../core/services/api/api.service';
 import { CommonModule } from '@angular/common';
+import { SelectedPlantService } from '../../core/services/selectedPlant/selected-plant.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class PlantDetailComponent implements OnInit {
     page = 0;
     pageSize = 1;
 
-    constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+    /*constructor(private apiService: ApiService, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.loadPlant();
@@ -51,4 +52,13 @@ export class PlantDetailComponent implements OnInit {
             this.loadPlant();
         }
     }
+}
+*/
+
+constructor(private selectedPlantService: SelectedPlantService) {}
+
+ngOnInit(): void {
+    this.selectedPlantService.selectedPlant$.subscribe(plant => this.plant = plant);
+    this.selectedPlantService.selectedPlantFlag$.subscribe(flag => this.flagUrl = flag || 'assets/default-flag.png');
+}
 }
