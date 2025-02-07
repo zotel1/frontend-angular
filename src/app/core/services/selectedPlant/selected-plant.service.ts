@@ -5,7 +5,7 @@ import { Plant } from '../../models/model';
 @Injectable({
   providedIn: 'root'
 })
-export class SelectedPlantServiceService {
+export class SelectedPlantService {
   private selectedPlantSource = new BehaviorSubject<Plant | null>(null);
   selectedPlant$ = this.selectedPlantSource.asObservable();
 
