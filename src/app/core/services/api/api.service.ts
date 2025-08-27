@@ -8,7 +8,7 @@ import { Country, Plant } from '../../models/model';
 
 @Injectable({
     providedIn: 'root',
-})
+}) // fullstack-backend-java-production.up.railway.app
 export class ApiService {
     private readonly apiUrl = 'https://fullstack-backend-java-production.up.railway.app/api/v1';
 
