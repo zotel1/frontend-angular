@@ -10,7 +10,7 @@ import { Country, Plant } from '../../models/model';
     providedIn: 'root',
 }) // fullstack-backend-java-production.up.railway.app
 export class ApiService {
-    private readonly apiUrl = 'https://fullstack-backend-java-production.up.railway.app/api/v1';
+    private readonly apiUrl = 'https://fullstack-backend-java-production-agosto.up.railway.app/api/v1';
 
     constructor(private httpClient: HttpClient, private authService: AuthService) { }
 

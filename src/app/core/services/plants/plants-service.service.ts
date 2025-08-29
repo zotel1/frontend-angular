@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class PlantsService {
-    private baseUrl = 'https://fullstack-backend-java-production.up.railway.app/api/v1/plants'; // Cambia según la URL del backend
+    private baseUrl = 'https://fullstack-backend-java-production-agosto.up.railway.app/api/v1/plants'; // Cambia según la URL del backend
 
     constructor(private http: HttpClient) { }
 

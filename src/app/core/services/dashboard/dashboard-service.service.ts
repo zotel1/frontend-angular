@@ -9,7 +9,7 @@ import { Plant, Summary } from '../../models/model';
     providedIn: 'root',
 })
 export class DashboardService {
-    private baseUrl = 'https://fullstack-backend-java-production.up.railway.app/api/v1/';
+    private baseUrl = 'https://fullstack-backend-java-production-agosto.up.railway.app/api/v1/';
 
     constructor(private http: HttpClient) { }
 
